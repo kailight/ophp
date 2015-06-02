@@ -1,0 +1,51 @@
+#intro {
+  color: #ffffff;
+  background: url('../images/intro2.jpg');
+  background-color: #222;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  padding: 0;
+}
+#intro h1,
+#intro h2,
+#intro h3,
+#intro h4,
+#intro h5,
+#intro h6 {
+  color: #ffffff;
+}
+#intro .overlay {
+  background-color: rgba(44, 62, 80, 0.2);
+  background-image: url("../images/pattern.png");
+  background-repeat: repeat;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+}
+#intro .box {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  text-align: center;
+  transform: translate(0%, -50%);
+  padding: 0 15px;
+}
+#intro .box .name {
+  font-weight: 700;
+}
+#intro .box .logo {
+  background-image: url("../images/logo_big.png");
+  width: 519px;
+  height: 315px;
+  margin: auto;
+  display: block;
+}
+#intro h1 {
+  font-weight: 800;
+}

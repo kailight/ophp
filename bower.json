@@ -1,0 +1,22 @@
+{
+  "name": "kailight",
+  "version": "0.0.0",
+  "authors": [
+    "kailight <lastgrunger@gmail.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "homepage": "kailight.ru",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "highlightjs": "~8.5.0"
+  }
+}
