@@ -17,7 +17,7 @@ class oDatabaseMysql extends oDatabase {
 	}
 
 
-	function init() {
+	static function init() {
 
 		self::setConfig();
 
@@ -27,7 +27,7 @@ class oDatabaseMysql extends oDatabase {
 	static function setConfig($config=null) {
 
 		parent::setConfig($config);
-
+		self::$config = parent::$config;
 
 	}
 
@@ -37,15 +37,17 @@ class oDatabaseMysql extends oDatabase {
 	 * Connect to MYSQL DB
 	 */
 	static function connect() {
-		rec('oDatabase:connect()');
+		rec('oDatabaseMysql::connect()');
 
+		if (!self::$config) {
+			throw new oException('No database configuration provided',0);
+		}
 
-
-		self::$link = new \mysqli($config['host'], $config['user'], $config['pass']);
+		self::$link = new \mysqli(self::$config['host'], self::$config['user'], self::$config['pass']);
 		if (self::$link->connect_errno) {
 			msg ("Failed to connect to MySQL: (" . self::$link->connect_errno . ") " . self::$link->connect_error);
 		}
-		self::$link->select_db($config['database']);
+		self::$link->select_db(self::$config['database']);
 		if (self::$link->connect_error) {
 			throw new oException(self::$link->connect_error,0);
 		}
@@ -70,27 +72,15 @@ class oDatabaseMysql extends oDatabase {
 			throw new oException( self::$link->error, 1);
 		}
 
-		$db_config = oConfig::database();
-
 		$data = array();
-		if ($db_config['type'] == 'mysql') {
-			if ($result->num_rows) {
-				while ($row = $result->fetch_assoc()) {
-					$data[] = $row;
-				}
-			}
-		}
-		else if ($db_config['type'] == 'sqlite') {
-			while($row = $result->fetchArray(1)){
+		if ($result->num_rows) {
+			while ($row = $result->fetch_assoc()) {
 				$data[] = $row;
 			}
 		}
 
-		return $data;
+	return $data;
 	}
-
-
-}
 
 
 

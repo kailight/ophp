@@ -207,13 +207,6 @@ class oConfig implements StaticInit {
 
         $logFiles = self::$_configs[$environment]['Logs'];
 
-        /*
-        echo '<pre>'.__FILE__.':'.__LINE__.'<br>';
-        var_export(realpath( $runLog ));
-        echo '</pre>';
-        die();
-        */
-
         $errorLog   = $logFiles['error'];
         $runLog     = $logFiles['run'];
 

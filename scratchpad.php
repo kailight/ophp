@@ -17,7 +17,7 @@ foreach ($oArray as $foo=>$bar) {
 }
 */
 
-$database = new oDatabase();
-
-prd($database);
+$database = o::init('Database');
+$data = $database->query('SELECT * FROM table1');
+prd($data);
 

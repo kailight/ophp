@@ -2,7 +2,7 @@
 
 namespace o;
 
-class oDatabase {
+class oDatabase implements StaticInit {
 
 
 
@@ -13,13 +13,13 @@ class oDatabase {
 	static $config;
 
 	function oDatabase() {
-		return $this->init();
+		$this->init();
 	}
 
 
-	function init() {
+	static function init() {
 
-		return self::setConfig();
+		self::setConfig();
 
 	}
 
@@ -31,14 +31,6 @@ class oDatabase {
 		}
 
 		self::$config = $config;
-
-		prd(self::$config);
-
-		if ( self::$config['type'] ) {
-			if ( self::$config['type'] == 'mysql') {
-				return new oDatabaseMysql();
-			}
-		}
 
 	}
 
