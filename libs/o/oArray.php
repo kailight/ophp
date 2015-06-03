@@ -3,28 +3,29 @@
 namespace o;
 
 
-class oArray implements \Iterator {
+class oArray implements \Iterator, \ArrayAccess, \Countable, \Serializable {
 
     public $originalArray = Array();
     public $currentArray = Array();
     private $__position;
-
-    /**
-     * ITERATION
-     */
 
 
     public function __construct() {
         $this->__position = 0;
 
         if ( func_num_args() > 0 ) {
-            $array = func_get_args();
-        } else if ( func_num_args() == 1 ) {
-            $array =  func_get_arg(0);
-            if (!is_array($array)) {
-                if (is_string($array) || is_int($array)) {
-                    $array = Array($array);
+            $args = func_get_args();
+            if ( func_num_args() == 1 ) {
+                $array = $args[0];
+                if (!is_array($array)) {
+                    if (is_string($array) || is_int($array)) {
+	                    $array = Array( $array );
+                    } else {
+	                    $array = Array();
+                    }
                 }
+            } else {
+	            $array = $args;
             }
         } else {
             $array = Array();
@@ -34,8 +35,12 @@ class oArray implements \Iterator {
         $this->currentArray = $array;
         $this->originalArray = $array;
 
+	return $this;
     }
 
+	/**
+	 * Iterator interface
+	 */
     function rewind() {
         $this->__position = 0;
     }
@@ -57,7 +62,73 @@ class oArray implements \Iterator {
     }
 
 
-    /**
+
+	/**
+	 * Serializable interface
+	 */
+
+	/**
+	 * @return string
+	 */
+	public function serialize()
+	{
+		return serialize($this->currentArray);
+	}
+
+	/**
+	 * @param string $data
+	 */
+	public function unserialize($data)
+	{
+		$this->currentArray = unserialize($data);
+	}
+
+
+	/**
+	 * Countable interface
+	 */
+
+	/**
+	 * @return int
+	 */
+	/*
+	public function count($mode=null)
+	{
+		return count($this->currentArray);
+	}
+	*/
+
+
+
+	/**
+	 * ArrayAccess interface
+	 */
+	public function offsetExists($offset)
+	{
+		return isset($this->currentArray[$offset]);
+	}
+
+	public function offsetGet($offset)
+	{
+		return $this->offsetExists($offset) ? $this->currentArray[$offset] : null;
+	}
+
+	public function offsetSet($offset, $value)
+	{
+		if (is_null($offset)) {
+			$this->currentArray[] = $value;
+		} else {
+			$this->currentArray[$offset] = $value;
+		}
+	}
+
+	public function offsetUnset($offset)
+	{
+		unset($this->currentArray[$offset]);
+	}
+
+
+	/**
      * STANDARD
      *
      *
@@ -162,7 +233,7 @@ class oArray implements \Iterator {
      * @param bool $preserve_keys [optional] <p>
      * If set to true keys are preserved.
      * </p>
-     * @return array the reversed array.
+     * @return oArray.
      */
     function reverse( $preserve_keys=null )
     {
@@ -187,8 +258,16 @@ class oArray implements \Iterator {
 	function keys( $search_value = null, $strict = null )
 	{
 		if (function_exists('array_keys')) {
-			return array_keys($this->currentArray, $search_value, $strict );
+			if ($search_value && $strict) {
+				$keys = array_keys($this->currentArray, $search_value, $strict );
+			} elseif ($search_value) {
+				$keys = array_keys($this->currentArray, $search_value );
+			} else {
+				$keys = array_keys($this->currentArray);
+			}
+			return $keys;
 		}
+
 	}
 
 
@@ -198,17 +277,33 @@ class oArray implements \Iterator {
 	 * SWEETIES
 	 * @todo make optional
 	 *
-	 * @param string $key
-	 * A key to get
 	 */
 
-	function get($key=null) {
+	/**
+	 * Retrieve value of array by key
+	 * Returns pure currentArray if no $key
+	 *
+	 * @param mixed $key - key to retrieve the value by
+	 *
+	 *
+	 * @return mixed
+	 */
+	function get($key=null)
+	{
 
-		if ($key===null) {
+		if ($key == null) {
 			return $this->currentArray;
 		}
 		if (isset($this->currentArray[$key])) {
 			return $this->currentArray[$key];
+		} else {
+			if (is_numeric($key)) {
+				$keys = $this->keys();
+				$key = $keys[(int) $key];
+				if ($key) {
+					return $this->currentArray[$key];
+				}
+			}
 		}
 
 	return null;

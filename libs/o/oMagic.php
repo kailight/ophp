@@ -9,7 +9,7 @@
 namespace o;
 
 
-class iMagic {
+class oMagic {
 
     /**
      * @link "KaiLight.com/kitten"

@@ -265,7 +265,7 @@ HEREDOC;
 </section>
 
 
-<?php include 'modules/footer.php' ?>
+<?php include 'footer.php' ?>
 
 
 <!-- Javascript files -->

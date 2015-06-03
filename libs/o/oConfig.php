@@ -2,7 +2,7 @@
 
 /**
  * @package i
- * @class iConfig
+ * @class oConfig
  * Class used for configuration of properties that are inaccessible before database connection
  * (database credentials come in mind first)
  * or have no point to be stored in database (logs)
@@ -10,7 +10,7 @@
 
 namespace o;
 
-class iConfig {
+class oConfig implements StaticInit {
 
     /**
      * @var string filename of one of .ini files in config dir
@@ -26,6 +26,11 @@ class iConfig {
     private static $_configs = array();
 
 
+	function __construct() {
+		self::init();
+	}
+
+
     static function init() {
     rec(__METHOD__);
 
@@ -35,10 +40,10 @@ class iConfig {
         }
 
         $dir = realpath(ROOT.'config');
-        $dir = new iDir($dir);
+        $dir = new oDir($dir);
         $files = $dir->scan();
         if (!is_array($files)) {
-            throw new iException(iException::ERROR_CONFIG7,0);
+            throw new oException(oException::ERROR_CONFIG7,0);
         }
         foreach ($files as $file) {
             if ( $file->extension == 'ini' ) {
@@ -148,7 +153,7 @@ class iConfig {
      * This simplifies installation greatly since we don't have to reconfigure script on file transfer
      *
      * @return string environment codename
-     * @throws iException
+     * @throws oException
      */
     private static function detectEnvironment() {
     rec(__METHOD__);
@@ -168,7 +173,7 @@ class iConfig {
         if ( $environment === null ) {
             msg("Need to configure App, ask Xander how");
             msg("!Terminating");
-            throw new iException(iException::ERROR_CONFIG0,0);
+            throw new oException(oException::ERROR_CONFIG0,0);
         } else {
             message(__METHOD__." Detected environment: %s",array($environment));
         }
@@ -219,10 +224,10 @@ class iConfig {
             $errorLog = ROOT.$errorLog;
         }
         if ( !$runLog = realpath( $runLog ) ) {
-            throw new iException(iException::ERROR_CONFIG4,0);
+            throw new oException(oException::ERROR_CONFIG4,0);
         }
         if ( !$errorLog = realpath( $errorLog ) ) {
-            throw new iException(iException::ERROR_CONFIG5,0);
+            throw new oException(oException::ERROR_CONFIG5,0);
         }
         if ( is_file($errorLog) && !is_writable( $errorLog ) ) {
             chmod( $errorLog, 0777 );

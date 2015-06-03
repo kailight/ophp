@@ -9,7 +9,7 @@
 namespace o;
 
 
-class iLocations {
+class oLocations {
 
 
     const DIR_CACHE      = "cache";

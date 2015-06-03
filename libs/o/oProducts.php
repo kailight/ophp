@@ -9,7 +9,7 @@
 namespace o;
 
 
-class iProducts {
+class oProducts {
 
 
 

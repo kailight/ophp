@@ -9,7 +9,7 @@
 namespace o;
 
 
-class iCache extends iLocations {
+class oCache extends iLocations {
 
     const DIR_BASE           = "cache";
 
@@ -63,7 +63,7 @@ class iCache extends iLocations {
     /**
      * @param string $page
      * @return string layout path if exists
-     * @throws iException
+     * @throws oException
      */
     static function getPagePath( $page=null ) {
 
@@ -81,7 +81,7 @@ class iCache extends iLocations {
     /**
      * @param string $block
      * @return string layout path if exists
-     * @throws iException
+     * @throws oException
      */
     static function getBlockPath( $block=null ) {
 
@@ -116,7 +116,7 @@ class iCache extends iLocations {
     /**
      * @param null $layout
      * @return string layout path if exists
-     * @throws iException
+     * @throws oException
      */
     static function getLayoutPath( $layout=null ) {
 

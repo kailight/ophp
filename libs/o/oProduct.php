@@ -2,7 +2,7 @@
 
 namespace o;
 
-class iProduct {
+class oProduct {
 
     /**
      * @var int
@@ -793,7 +793,7 @@ HEREDOC;
      * @param string $store_id
      * @param int $id_in_store
      * @return null|iProduct
-     * @throws iException
+     * @throws oException
      */
     function loadPhotoFromServer($store_id=null,$id_in_store=null) {
     info('iProduct::loadPhotoFromServer()');

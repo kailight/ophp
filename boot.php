@@ -14,7 +14,7 @@ spl_autoload_register(function ($class) {
     include_once ROOT.'libs'.DS.$class.'.php';
     if ( method_exists( $class, 'init' ) ) {
         $reflection_class = new \ReflectionClass($class);
-        if( in_array('i\StaticInit', $reflection_class->getInterfaceNames())) {
+        if( in_array('o\StaticInit', $reflection_class->getInterfaceNames())) {
             $class::init();
         }
     }

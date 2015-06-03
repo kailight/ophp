@@ -1,10 +1,23 @@
 <?php
 
-namespace i;
+namespace o;
 
-include '../boot.php';
+include 'boot.php';
 
 
-$iArray = new iArray('PHP','love','I');
-echo $iArray->reverse()->implode(' ');
+// $oArray = new oArray('PHP','love','I');
+// echo $oArray->reverse()->implode(' ');
 // I love PHP
+
+/*
+$oArray = new oArray('PHP','love','I');
+$oArray->reverse();
+foreach ($oArray as $foo=>$bar) {
+	echo $bar;
+}
+*/
+
+$database = new oDatabase();
+
+prd($database);
+

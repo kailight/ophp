@@ -9,7 +9,7 @@
 namespace o;
 
 /**
- * Class i
+ * class o
  * @package i
  * serves as registry
  */
@@ -92,7 +92,7 @@ class o implements StaticInit {
             array_shift($query);
         }
         if (self::$_ajax) {
-            iUI::setLayout('ajax');
+            oUI::setLayout('ajax');
         }
 
         $page = ( !empty($query) && !empty($query[0]) ) ? $query[0] : self::DEFAULT_PAGE;
@@ -210,7 +210,7 @@ class o implements StaticInit {
     /**
      * @param string $script_name
      * @param string $interface
-     * @throws iException
+     * @throws oException
      * @return string
      */
     static function getScript($script_name='',$interface='php') {
@@ -223,7 +223,7 @@ class o implements StaticInit {
             $requested_interface_dir = SKYNET_INTERFACE_RUN.$interface.DS;
         }
         else {
-            throw new iException("iUI::runScript() Unknown interface $interface",1);
+            throw new oException("oUI::runScript() Unknown interface $interface",1);
         }
 
         $script_names = getFilesInDir($requested_interface_dir);
@@ -231,7 +231,7 @@ class o implements StaticInit {
             return $requested_interface_dir.$script_name;
         }
         else {
-            throw new iException("iUI::runScript() Script $script_name not found ",1);
+            throw new oException("oUI::runScript() Script $script_name not found ",1);
         }
 
     }

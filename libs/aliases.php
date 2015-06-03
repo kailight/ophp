@@ -1,6 +1,6 @@
 <?php
 
-namespace i;
+namespace o;
 
 
     function ago($time) {
@@ -12,8 +12,8 @@ namespace i;
     }
 
     function rec($message,$data=array()) {
-        \i\iException::log($message,$data);
-        // \i\iException::log($message,$data);
+        \o\oException::log($message,$data);
+        // \o\oException::log($message,$data);
     }
 
     function s() {
@@ -25,12 +25,12 @@ namespace i;
     }
 
     function info($message,$data=array()) {
-        \i\iException::log($message,$data);
+        \o\oException::log($message,$data);
     }
 
     function message($message,$data=array()) {
-        \i\iException::message($message,$data);
-        // \i\iException::log($message,$data);
+        \o\oException::message($message,$data);
+        // \o\oException::log($message,$data);
     }
 
     function msg($message,$data=array()) {
@@ -38,41 +38,41 @@ namespace i;
     }
 
     function pr($var=null) {
-        \i\iException::pr($var);
+        \o\oException::pr($var);
     }
 
     function prd($var=null) {
 
-        \i\iException::prd($var);
+        \o\oException::prd($var);
     }
 
     function setExceptionHandler() {
-        \set_exception_handler('\i\exceptionHandler');
+        \set_exception_handler('\o\exceptionHandler');
     }
 
     function error( $message, $data=array() ) {
-        throw new iException( $message, array ( 'level'=>1,'data'=>$data ) );
-        // \i\iException::error($message,$data);
+        throw new oException( $message, array ( 'level'=>1,'data'=>$data ) );
+        // \o\oException::error($message,$data);
     }
 
     function warning($message,$data=array()) {
-        // \i\iException::warning($message,$data);
-        throw new iException( $message, array ( 'level'=>2, 'data'=>$data ));
-        // \i\iException::error($message,$data);
+        // \o\oException::warning($message,$data);
+        throw new oException( $message, array ( 'level'=>2, 'data'=>$data ));
+        // \o\oException::error($message,$data);
     }
 
     function wtf() {
 
-        $log = iException::getLog(iException::FORMAT_HTML);
+        $log = oException::getLog(oException::FORMAT_HTML);
 
     }
 
     /**
-     * @param $exception iException
+     * @param $exception oException
      */
     function exceptionHandler($exception) {
 
-        \i\iException::handleException($exception);
+        \o\oException::handleException($exception);
 
     }
 

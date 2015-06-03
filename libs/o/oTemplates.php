@@ -11,7 +11,7 @@ namespace o;
 
 use Dumbo\Dumbo;
 
-class iTemplates implements StaticInit {
+class oTemplates implements StaticInit {
 
     static private $_iteration = 0;
     /**
@@ -33,7 +33,7 @@ class iTemplates implements StaticInit {
     /**
      * @param string $filename
      * @param array $vars
-     * @throws iException
+     * @throws oException
      */
     static function init() {
 

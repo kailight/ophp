@@ -2,7 +2,7 @@
 
 namespace o;
 
-class iSettings {
+class oSettings {
 
     static $settings = array();
 
@@ -44,13 +44,13 @@ class iSettings {
         $q = 'SELECT * FROM settings';
         try {
             $settingsFromDB = q($q);
-        } catch (iException $e) {
+        } catch (oException $e) {
             $message = $e->getLastMessage()->message;
             // @ToDo preg match
             if (stristr($message,'Table') && stristr($message,"doesn't exist")) {
                 return self::$settings;
             } else {
-                iException::handleException($e);
+                oException::handleException($e);
             }
         }
 

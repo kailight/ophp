@@ -1,7 +1,7 @@
 <?php
 
 
-class iObject {
+class oObject {
 
     protected $_data;
 

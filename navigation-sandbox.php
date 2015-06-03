@@ -18,7 +18,7 @@
 
             <div class="collapse navbar-collapse" id="custom-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/ophp">oPHP</a></li>
+                    <li><a href="#">oPHP</a></li>
                 </ul>
             </div>
 

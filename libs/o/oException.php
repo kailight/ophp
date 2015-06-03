@@ -3,19 +3,19 @@
 namespace o;
 
 /**
- * iException
+ * oException
  *
  * @see test
  *
  * @category   i
  * @package    i
  */
-class iException extends \Exception {
+class oException extends \Exception {
 
     static private $_messages           = array();
 
     /**
-     * @var iMessage
+     * @var oMessage
      */
     private $_this_message       = null;
     static public  $_errors      = array();
@@ -40,7 +40,7 @@ class iException extends \Exception {
     const ERROR_CONFIG3                  = "Call to getLogfile() before detectEnvironment()";
     const ERROR_CONFIG4                  = "Run log file not found";
     const ERROR_CONFIG5                  = "Error log file not found";
-    const ERROR_CONFIG6                  = "Could not get log files from iConfig";
+    const ERROR_CONFIG6                  = "Could not get log files from oConfig";
     const ERROR_CONFIG7                  = "No ini files are found in config dir";
     const ERROR_CURL                     = "Unknown curl error %s";
     const ERROR_STUB                     = "STUB";
@@ -59,7 +59,7 @@ class iException extends \Exception {
     const FORMAT_PHP     = "php";
 
 
-    const DUMP_CSS_CLASS = "iExceptionDump";
+    const DUMP_CSS_CLASS = "oExceptionDump";
 
     /**
      * @var string one of FORMAT_HTML
@@ -73,30 +73,37 @@ class iException extends \Exception {
      */
     public function __construct($message='', $data = 1) {
 
+	    /**
+	     * Here we set level, if level is undetected it will result in fatal error
+	     */
+	    $level = 0;
+	    if (is_numeric($data)) {
+		    $level = $data;
+	    }
+
+	    if (is_array($data)) {
+		    if ( in_array ('level', array_keys($data) ) ) {
+			    $level = $data['level'];
+			    unset( $data['level'] );
+		    }
+		    if (is_array($data['data'])) {
+			    $data = $data['data'];
+		    }
+	    }
+
+	    /**
+	     * We need this to avoid infinite loop
+	     */
+	    if (!self::$_initialized && $level == 0) {
+		    self::finish($message);
+	    }
+
         $this->init($message,$data);
         parent::__construct($message);
 
-        /**
-         * Here we set level, if level is undetected it will result in fatal error
-         */
-        $level = 0;
-        if (is_numeric($data)) {
-            $level = $data;
-        }
-
-
-        if (is_array($data)) {
-            if ( in_array ('level', array_keys($data) ) ) {
-                $level = $data['level'];
-                unset( $data['level'] );
-            }
-            if (is_array($data['data'])) {
-                $data = $data['data'];
-            }
-        }
-
         $message = self::addMessage($message,$level,$data);
         $this->_this_message = $message;
+
         if ($level == 0) {
             self::finish();
         }
@@ -171,10 +178,9 @@ class iException extends \Exception {
         self::$now = new \DateTime();
         self::_detectFormat();
 
-
         try {
-            $logs = iConfig::logs();
-        } catch ( iException $e ) {
+            $logs = oConfig::logs();
+        } catch ( oException $e ) {
             self::addMessage( self::ERROR_CONFIG6, 0);
             self::finish();
         }
@@ -198,7 +204,7 @@ class iException extends \Exception {
      * @param $message
      * @param $level
      * @param array $data
-     * @return iMessage
+     * @return oMessage
      */
     private static function addMessage($message,$level,$data=array()) {
 
@@ -223,7 +229,7 @@ class iException extends \Exception {
     private static function makeMessage($message,$code,$level,$data) {
 
         try {
-            $message = new iMessage($message,$code,$level,$data);
+            $message = new oMessage($message,$code,$level,$data);
         } catch (\Exception $e) {
             echo $e;
             exit;
@@ -285,7 +291,7 @@ class iException extends \Exception {
 
 
     /**
-     * @return iMessage
+     * @return oMessage
      */
     public function getThisMessage() {
 
@@ -295,7 +301,7 @@ class iException extends \Exception {
 
 
     /**
-     * @return iMessage
+     * @return oMessage
      */
     public static function getLastMessage() {
 
@@ -309,7 +315,7 @@ class iException extends \Exception {
 
 
     /**
-     * @return iMessage
+     * @return oMessage
      */
     public static function getLastWarning() {
 
@@ -323,11 +329,11 @@ class iException extends \Exception {
     }
 
     /**
-     * @return iMessage
+     * @return oMessage
      */
     private static function getLastError() {
 
-        /** @var iMessage $message */
+        /** @var oMessage $message */
         foreach (self::$_messages as $message) {
             if ($message->getLevel() == 0 || $message->getLevel() == 1) {
                 $last_error = $message;
@@ -373,12 +379,12 @@ class iException extends \Exception {
         );
 
         if ( !in_array ($format,$formats) ) {
-            trigger_error('iException::setFormat() unknown format '.$format, E_USER_WARNING);
+            trigger_error('oException::setFormat() unknown format '.$format, E_USER_WARNING);
             return false;
         }
 
         self::$_format = $format;
-        iMessage::$_format = self::$_format;
+        oMessage::$_format = self::$_format;
 
     return true;
     }
@@ -386,7 +392,10 @@ class iException extends \Exception {
 
     private static function getErrorCodeByMessage($message) {
 
-        $reflection = new \ReflectionClass('\i\iException');
+	    if (__NAMESPACE__) {
+		    $namespace = '\\' . __NAMESPACE__;
+	    }
+        $reflection = new \ReflectionClass($namespace.'\oException');
         $constants = $reflection->getConstants();
         $codes = array_flip( $constants );
 
@@ -431,7 +440,7 @@ class iException extends \Exception {
         $log = '';
         $messages = array();
 
-        /** @var iMessage $message */
+        /** @var oMessage $message */
         foreach (self::$_messages as $message) {
             $messages[] = (string) $message;
         }
@@ -561,7 +570,7 @@ class iException extends \Exception {
 
 
 
-        $message = iMessage::formatMessage($message);
+        $message = oMessage::formatMessage($message);
 
         if ( self::$_format == self::FORMAT_HTML ) {
             $log     = "<pre class='".self::DUMP_CSS_CLASS."'>";
@@ -653,14 +662,14 @@ class iException extends \Exception {
             echo $message.PHP_EOL;
         }
         */
-        // throw new iException( $message, array ('level'=>2,'data'=>$data) );
+        // throw new oException( $message, array ('level'=>2,'data'=>$data) );
     }
 
 
 
 
     static function error($message,$data=array()) {
-        throw new iException($message,array('level'=>1,'data'=>$data));
+        throw new oException($message,array('level'=>1,'data'=>$data));
         //
         // prd((string) $error);
 
@@ -670,14 +679,14 @@ class iException extends \Exception {
 
     static function warning($message,$data=array()) {
         self::addMessage($message,2,$data);
-        // throw new iException( $message, array ('level'=>3,'data'=>$data) );
+        // throw new oException( $message, array ('level'=>3,'data'=>$data) );
         // prd((string) $error);
     }
 
 
     static function handleException($exception) {
 
-        if ($exception instanceof iException) {
+        if ($exception instanceof oException) {
             $level = $exception->getLevel();
             if ($level == 1 || $level == 0) {
                 $exception->logException((string)$exception);
@@ -687,7 +696,7 @@ class iException extends \Exception {
                 if ($exception->isCli()) {
                     echo $lastMessage;
                 } else {
-                    echo 'Uncaught iException<br>', $lastMessage;
+                    echo 'Uncaught oException<br>', $lastMessage;
                     // $exception->finish();
                     // do nothing, exception is logged
                 }

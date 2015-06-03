@@ -6,7 +6,7 @@ namespace o;
 /**
  * @property array items
  */
-class iApp extends iCore {
+class oApp extends iCore {
 
     /**
      * @var \DateTime
@@ -121,8 +121,8 @@ class iApp extends iCore {
 
         try {
             self::$config = iConfig::init();
-        } catch (iException $e) {
-            iException::handleException($e);
+        } catch (oException $e) {
+            oException::handleException($e);
             return false;
         }
 
@@ -139,10 +139,10 @@ class iApp extends iCore {
         msg('Trying to create database '.$db_config['database'].'');
         try {
             q("CREATE DATABASE `".$db_config['database']."`");
-        } catch (iException $e) {
+        } catch (oException $e) {
             msg('Could not create database '.$db_config['database'].'');
             return false;
-            // iException::handleException($e);
+            // oException::handleException($e);
         }
 
     }
@@ -157,7 +157,7 @@ class iApp extends iCore {
         try {
             self::connectToDatabase();
             msg('Connected to database');
-        } catch (iException $e) {
+        } catch (oException $e) {
             msg('Couldn\'t connect to database: '.$e->getMessage());
             return false;
         }
@@ -176,9 +176,9 @@ class iApp extends iCore {
                     msg('Database '.$db_config['database'].' exists');
                 }
             }
-        } catch (iException $e) {
+        } catch (oException $e) {
             msg('Database '.$db_config['database'].' doesn\'t exist');
-            // iException::handleException($e);
+            // oException::handleException($e);
             self::createDb();
         }
 
@@ -255,16 +255,16 @@ HEREDOC;
                         msg('Couldn\'t create table *'.$db_config['table'].'* in database, exiting');
                         return false;
                     }
-                } catch (iException $e) {
+                } catch (oException $e) {
                     msg('Some error happened while trying to create table '.$db_config['table'].'');
                     msg($e->getMessage());
                     return false;
-                    // iException::handleException($e);
+                    // oException::handleException($e);
                 }
 
             }
             msg('Table *'.$db_config['table'].'* exists');
-        } catch (iException $e) {
+        } catch (oException $e) {
             msg('Some error happened while checking for table in database');
             return false;
         }
@@ -300,7 +300,7 @@ HEREDOC;
                 exit;
             }
             msg(sizeof(self::$code_to_name).' entries found in code_to_name.txt');
-        } catch (iException $e) {
+        } catch (oException $e) {
             msg('Something went wrong while parsing code_to_name.txt');
             return false;
         }
@@ -369,7 +369,7 @@ HEREDOC;
         $query = str_replace('*conditions*',$conditions,$template);
         try {
             q($query);
-        } catch (iException $e) {
+        } catch (oException $e) {
             self::finish($e);
         }
 
@@ -399,7 +399,7 @@ HEREDOC;
             try {
                 q($query);
             }
-            catch (iException $e) {
+            catch (oException $e) {
                 msg('Some error happened while trying to insert record #'.$n.' into database ('.$item['Email'].')');
                 msg("SQL query that caused problems is: ");
                 msg($query);
@@ -683,7 +683,7 @@ To add members that do want to receive digest emails please run this command.
 
 
 
-    static function finish(iException $e=null) {
+    static function finish(oException $e=null) {
     message('iApp::finish()');
 
         msg(self::$addedCounter.' emails were added to lists');
@@ -711,11 +711,11 @@ HEREDOC;
 
         mail ( $email , "iApp email lists script execution" , $message );
 
-        $log = iException::getLogInFormat('text');
-        iException::logRun();
+        $log = oException::getLogInFormat('text');
+        oException::logRun();
 
 
-        // iException::reset();
+        // oException::reset();
 
 
         /*
@@ -737,15 +737,15 @@ HEREDOC;
         */
 
 
-        if ($e instanceof \Exception || $e instanceof iException) {
-            iException::logException($e);
+        if ($e instanceof \Exception || $e instanceof oException) {
+            oException::logException($e);
         }
-        if ($e instanceof iException) {
+        if ($e instanceof oException) {
             if ($e->getLevel() <= 1) {
                 echo $e;
                 throw $e;
             }
-            // iException::handleException($e);
+            // oException::handleException($e);
         }
 
     exit;

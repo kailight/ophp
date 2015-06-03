@@ -2,7 +2,7 @@
 
 namespace o;
 
-class iStores {
+class oStores {
 
 
 
@@ -81,8 +81,8 @@ class iStores {
 
         try {
             self::$xover_stores = include XOVER . 'eatme' . DS . 'stores.php';
-        } catch (iException $e) {
-            iException::handleException($e);
+        } catch (oException $e) {
+            oException::handleException($e);
         }
 
     }
@@ -101,7 +101,7 @@ class iStores {
 
     /**
      * @param string $code
-     * @throws iException
+     * @throws oException
      */
     static function get($code) {
     self::init();
@@ -114,7 +114,7 @@ class iStores {
         }
 
         if (!$found_store) {
-            throw new iException("iStores::get($code) - Store with $code doesn't exist",1);
+            throw new oException("iStores::get($code) - Store with $code doesn't exist",1);
         }
 
     return $found_store;

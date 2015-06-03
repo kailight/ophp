@@ -11,7 +11,7 @@ namespace o;
 use Dumbo\Dumbo;
 
 
-class iTemplate {
+class oTemplate {
 
     /**
      * @var bool
@@ -52,7 +52,7 @@ class iTemplate {
                 $this->template = new iFile( iUI::getThemePath(iUI::DEFAULT_THEME,true).$relative_path  );
                 $this->cache    = new iFile( iUI::getThemeCachePath(iUI::DEFAULT_THEME,true).$relative_path );
             } else {
-                throw new iException(iException::ERROR_TEMPLATE_FILE_NOT_FOUND, array('level'=>1,$relative_path));
+                throw new oException(oException::ERROR_TEMPLATE_FILE_NOT_FOUND, array('level'=>1,$relative_path));
             }
         }
 
@@ -102,7 +102,7 @@ class iTemplate {
         $content = $this->template->getContents();
 
         if ( $content === false ) {
-            throw new iException('Template file *'.self::$_current_template['file'].'* not found');
+            throw new oException('Template file *'.self::$_current_template['file'].'* not found');
         }
 
 

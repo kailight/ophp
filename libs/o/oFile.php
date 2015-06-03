@@ -9,7 +9,7 @@
 namespace o;
 
 
-class iFile {
+class oFile {
 
     /**
      * @var string
@@ -52,12 +52,12 @@ class iFile {
     /**
      * @param $dir iDir
      * @return iFile
-     * @throw iException
+     * @throw oException
      */
     function copy($newDir) {
 
         if (!$newDir instanceof iDir) {
-            throw new iException(__CLASS__.__METHOD__.' first argument should be instance of iDir',0);
+            throw new oException(__CLASS__.__METHOD__.' first argument should be instance of iDir',0);
         }
         else {
             $contents = $this->getContents();
@@ -118,7 +118,7 @@ class iFile {
             $this->init($this->dir.DIRECTORY_SEPARATOR.$newName.'.'.$this->extension);
             // $this->extension = $newName;
         } else {
-            throw new iException("iFile::rename() Couldn't rename file",0);
+            throw new oException("iFile::rename() Couldn't rename file",0);
         }
 
         message("iFile::rename() File renamed to %s",array($newName));

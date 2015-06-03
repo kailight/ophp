@@ -9,7 +9,7 @@
 namespace o;
 
 
-class iStore {
+class oStore {
 
     /**
      * @var string|null
@@ -91,7 +91,7 @@ class iStore {
         if (iStores::isValidCode($code)) {
             $this->code = $code;
         } else {
-            throw new iException("Code $code is not valid code for iStore");
+            throw new oException("Code $code is not valid code for iStore");
         }
 
     }
@@ -152,7 +152,7 @@ class iStore {
      * @param $method string
      * @param $args array
      * @return mixed
-     * @throws iException
+     * @throws oException
      */
     function __call($method,$args=array()) {
 
@@ -171,7 +171,7 @@ class iStore {
         }
 
         else {
-            throw new iException("iStore::$method() - unknown method" );
+            throw new oException("iStore::$method() - unknown method" );
         }
 
 
@@ -192,8 +192,8 @@ class iStore {
         } else {
             try {
                 return $this->getSetting($property);
-            } catch (iException $e) {
-                throw new iException("iStore->$property - not found" );
+            } catch (oException $e) {
+                throw new oException("iStore->$property - not found" );
             }
         }
 

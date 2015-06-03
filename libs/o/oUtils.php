@@ -9,7 +9,7 @@
 namespace o;
 
 
-class iUtils {
+class oUtils {
 
     public static $_original_include_path;
 

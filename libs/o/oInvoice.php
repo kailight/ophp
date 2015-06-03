@@ -1,6 +1,6 @@
 <?php
 
-class iInvoice {
+class oInvoice {
 
     var $store_id;
     var $id = null;

@@ -9,7 +9,7 @@
 namespace o;
 
 
-class iParams {
+class oParams {
 
 
     /**
@@ -33,12 +33,12 @@ class iParams {
      * @param $param
      * @param $default
      * @return string
-     * @throws iException
+     * @throws oException
      */
     function requireParam( $param ) {
 
         if (!$_REQUEST[$param]) {
-            throw new iException("Required param $param is missing");
+            throw new oException("Required param $param is missing");
         } else {
             return $_REQUEST[$param];
         }

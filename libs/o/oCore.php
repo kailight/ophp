@@ -3,7 +3,7 @@
 
 namespace o;
 
-class iCore {
+class oCore {
 
     /**
      * @var \mysqli | \SQLiteDatabase
@@ -89,7 +89,7 @@ class iCore {
             }
             self::$db_link->select_db($database_config['database']);
             if (self::$db_link->connect_error) {
-                throw new iException(self::$db_link->connect_error,0);
+                throw new oException(self::$db_link->connect_error,0);
             }
 
             // $max_allowed_packet = self::$db_link->query( 'SELECT @@global.max_allowed_packet' )->fetch_array();
@@ -111,7 +111,7 @@ class iCore {
      * @param string $query
      * @param string $database
      * @return array
-     * @throws iException
+     * @throws oException
      */
     static function query( $query ) {
 
@@ -121,7 +121,7 @@ class iCore {
 
         $result = self::$db_link->query($query);
         if (!$result) {
-            throw new iException( self::$db_link->error, 1);
+            throw new oException( self::$db_link->error, 1);
         }
 
         $db_config = iConfig::database();

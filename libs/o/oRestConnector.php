@@ -8,7 +8,7 @@
 
 namespace o;
 
-class iRestConnector {
+class oRestConnector {
 
     var $startTime = null;
     var $endTime = null;

@@ -2,7 +2,7 @@
 
 namespace o;
 
-class iMessage {
+class oMessage {
 
     public $level   = null;
     public $code    = null;
@@ -24,7 +24,7 @@ class iMessage {
 
     function __construct($message,$code,$level,$data=array()) {
 
-        if ($level >= 1 && $code == iException::DEFAULT_CODE) {
+        if ($level >= 1 && $code == oException::DEFAULT_CODE) {
             $code = null;
         }
 
@@ -167,7 +167,7 @@ class iMessage {
     function __toString() {
 
 
-        if ( self::$_format == iException::FORMAT_TEXT ) {
+        if ( self::$_format == oException::FORMAT_TEXT ) {
             $level = $this->level == 0 ? "CORE ERROR:"   : $this->level;
             $level = $this->level == 1 ? "ERROR:"        : $level;
             $level = $this->level == 2 ? "WARNING:"      : $level;
@@ -175,7 +175,7 @@ class iMessage {
             $level = $this->level == 4 ? "info"          : $level;
             $message = self::formatMessage($this->getMessage());
             $code = $this->code;
-            if ( $code == iException::DEFAULT_CODE ) {
+            if ( $code == oException::DEFAULT_CODE ) {
                 $code = ' ';
             } else {
                 $code = "*$code* ";
@@ -183,7 +183,7 @@ class iMessage {
             return "{$level}{$code}{$message}";
         }
 
-        elseif ( self::$_format == iException::FORMAT_HTML ) {
+        elseif ( self::$_format == oException::FORMAT_HTML ) {
             $level = $this->level == 0  ?   "CORE ERROR" : $this->level;
             $level = $this->level == 1  ?   "ERROR"      : $level;
             $level = $this->level == 2  ?   "WARNING"    : $level;
@@ -205,7 +205,7 @@ class iMessage {
             return $string;
         }
 
-        elseif ( self::$_format == iException::FORMAT_PHP ) {
+        elseif ( self::$_format == oException::FORMAT_PHP ) {
             $string = serialize($this);
             return $string;
         }

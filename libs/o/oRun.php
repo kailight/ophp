@@ -2,7 +2,7 @@
 
 namespace o;
 
-class iRun {
+class oRun {
 
     /**
      * @var int
@@ -17,7 +17,7 @@ class iRun {
      */
     public $status = null;
     /**
-     * @var null|iException
+     * @var null|oException
      */
     public $exception = null;
     /**
@@ -113,7 +113,7 @@ class iRun {
         if ($result) {
             $data = $result[0];
         } else {
-            throw new iException("iRun:: run #'.{$this->id}.' not found in database",1);
+            throw new oException("iRun:: run #'.{$this->id}.' not found in database",1);
         }
 
         $this->id = $data['id'];
@@ -193,7 +193,7 @@ class iRun {
 
     function setException($e) {
 
-        if ($e instanceof iException) {
+        if ($e instanceof oException) {
             $this->exception = $e;
         }
 
@@ -204,7 +204,7 @@ class iRun {
 
     function getException() {
 
-        if ($this->exception instanceof iException) {
+        if ($this->exception instanceof oException) {
             return $this->exception;
         }
 

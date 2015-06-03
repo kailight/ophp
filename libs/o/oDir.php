@@ -9,7 +9,7 @@
 namespace o;
 
 
-class iDir {
+class oDir {
 
     /**
      * @var string
@@ -63,7 +63,7 @@ class iDir {
 
 
     /**
-     * @return iFile[]
+     * @return oFile[]
      */
     function scan() {
         $files = scandir($this->path);
@@ -75,7 +75,7 @@ class iDir {
         sort($files);
 
         foreach ($files as $k=>$file) {
-            $files[$k] = new iFile($this->path.DIRECTORY_SEPARATOR.$file);
+            $files[$k] = new oFile($this->path.DIRECTORY_SEPARATOR.$file);
         }
 
     return $files;

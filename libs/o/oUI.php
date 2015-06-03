@@ -9,7 +9,7 @@
 namespace o;
 
 
-class iUI implements StaticInit {
+class oUI implements StaticInit {
 
 
 
@@ -64,16 +64,16 @@ class iUI implements StaticInit {
 
 
     /**
-     * @throws iException if something goes wrong
+     * @throws oException if something goes wrong
      */
     static function checkIntegrity() {
     rec(__METHOD__);
 
         if (!self::themeExists(self::DEFAULT_THEME)) {
-            throw new iException(iException::ERROR_DEFAULT_THEME_404, array('level'=>1,ROOT.self::getThemePath() ) );
+            throw new oException(oException::ERROR_DEFAULT_THEME_404, array('level'=>1,ROOT.self::getThemePath() ) );
         }
         if (!self::layoutExists(self::DEFAULT_LAYOUT)) {
-            throw new iException( iException::ERROR_DEFAULT_LAYOUT_404, array('level'=>1, ROOT.self::getLayoutPath() ) );
+            throw new oException( oException::ERROR_DEFAULT_LAYOUT_404, array('level'=>1, ROOT.self::getLayoutPath() ) );
         }
 
     }
@@ -97,7 +97,7 @@ class iUI implements StaticInit {
     /**
      * @param null $layout
      * @return string layout path if exists
-     * @throws iException
+     * @throws oException
      */
     static function getLayoutPath( $layout=null, $absolute = false ) {
 
@@ -146,7 +146,7 @@ class iUI implements StaticInit {
     /**
      * @param string $page
      * @return string layout path if exists
-     * @throws iException
+     * @throws oException
      */
     static function getPagePath( $page=null ) {
 
@@ -163,7 +163,7 @@ class iUI implements StaticInit {
 
     /**
      * @param string $theme Theme to check
-     * @throws iException
+     * @throws oException
      * @return bool
      */
     static function themeExists($theme=null) {
@@ -225,7 +225,7 @@ class iUI implements StaticInit {
         if (in_array ($block_name, $block_files) ) {
             return ROOT.DS.'blocks'.DS.$block_file;
         } else {
-            throw new iException("Block $block_name not found",1);
+            throw new oException("Block $block_name not found",1);
         }
 
     }

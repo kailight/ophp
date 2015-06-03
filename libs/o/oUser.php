@@ -10,7 +10,7 @@ namespace o;
  * Contact: xander@inspiration-vibes.com
  */
 
-class iUser {
+class oUser {
 
     public $logged = false;
     public $vars = array();
@@ -156,7 +156,7 @@ class iUser {
         if ($ldap_error = ldap_error($this->ldapConnection)) {
             if ($ldap_error_code = ldap_errno($this->ldapConnection)) {
                 $error_code = 'LDAP'.$ldap_error_code;
-                throw new \skynet\iException( $error_code, 1 );
+                throw new \skynet\oException( $error_code, 1 );
             }
         }
 
