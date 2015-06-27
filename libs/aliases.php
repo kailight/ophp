@@ -7,8 +7,13 @@ namespace o;
         return Xander::ago($time);
     }
 
+    /**
+     * @param $query string|oQuery
+     *
+     * @return oDatabaseResult|null
+     */
     function q($query) {
-        return iCore::query($query);
+	    return oApp::$database->query($query);
     }
 
     function rec($message,$data=array()) {
@@ -17,7 +22,7 @@ namespace o;
     }
 
     function s() {
-        return iApp::stopwatch();
+        return oApp::stopwatch();
     }
 
     function log($message,$data=array()) {

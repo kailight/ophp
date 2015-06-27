@@ -192,11 +192,13 @@ class oMessage {
             $message = self::formatMessage($this->getMessage());
             $code = $this->getCode();
             $string = "";
-            if ($this->level >= 3) {
+            if ($this->level >= 4) {
                 if ($code) {
                     $string .= "Code: <strong>$code</strong>";
                 }
-                $string .= "<em>$message</em>";
+                $string .= "<span>$message</span>";
+            } else if ($this->level == 3) {
+	            $string .= "<em>$message</em>";
             } else {
                 $string .= "<strong>$level</strong><br>";
                 $string .= "Code: <strong>$code</strong><br>";

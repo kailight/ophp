@@ -34,7 +34,6 @@ class oConfig implements StaticInit {
     static function init() {
     rec(__METHOD__);
 
-
         if ( self::$_initialized ) {
             return;
         }
@@ -51,9 +50,14 @@ class oConfig implements StaticInit {
                 self::$_configs[$environment] = parse_ini_file($file->path, true);
                 self::$_configs[$environment]['Database']['type'] = (!self::$_configs[$environment]['Database']['type']) ? 'mysql' : self::$_configs[$environment]['Database']['type'];
                 self::$_configs[$environment]['Database']['type'] = (self::$_configs[$environment]['Database']['type'] == 'mysqli') ? 'mysql' : self::$_configs[$environment]['Database']['type'];
-
             }
         }
+
+	    foreach (self::$_configs as $_environment=>$config) {
+		    self::$_configs[$_environment]['Location']['dir'] = rtrim($config['Location']['dir'],DS);
+		    self::$_configs[$_environment]['Location']['dir'] = $config['Location']['dir'].DS;
+		    rec(self::$_configs[$_environment]['Location']['dir']);
+	    }
 
         if ( !self::$_environment ) {
             $environment = self::detectEnvironment();
@@ -67,6 +71,10 @@ class oConfig implements StaticInit {
         return self::$_configs[self::$_environment]['Admin'];
     }
 
+	static function Email() {
+		return self::$_configs[self::$_environment]['Email'];
+	}
+
     static function WISPA() {
         return self::$_configs[self::$_environment]['WISPA'];
     }
@@ -76,7 +84,14 @@ class oConfig implements StaticInit {
     }
 
     static function developerMode() {
-        return self::$_configs[self::$_environment]['Developer']['mode'];
+	    $ip = oApp::getClientIp();
+	    $developer_ips = self::$_configs[self::$_environment]['Developer']['ip'];
+	    $developer_ips = explode(',',$developer_ips);
+	    if ( is_array($developer_ips) && in_array( $ip, $developer_ips ) ) {
+		    return 1;
+	    } else {
+            return self::$_configs[self::$_environment]['Developer']['mode'];
+	    }
     }
 
 
@@ -160,15 +175,15 @@ class oConfig implements StaticInit {
 
         $environment = null;
 
-        foreach (self::$_configs as $_environment=>$config) {
-            self::$_configs[$_environment]['Location']['dir'] = rtrim($config['Location']['dir'],DS);
-            self::$_configs[$_environment]['Location']['dir'] = $config['Location']['dir'].DS;
+
+	    foreach (self::$_configs as $_environment=>$config) {
             rec(self::$_configs[$_environment]['Location']['dir']);
             if ( ROOT == self::$_configs[$_environment]['Location']['dir'] ) {
                 $environment = $_environment;
                 break;
             }
         }
+
 
         if ( $environment === null ) {
             msg("Need to configure App, ask Xander how");

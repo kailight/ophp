@@ -57,7 +57,7 @@ class oDatabaseMysql extends oDatabase {
 
 	/**
 	 * @param string | oString $query
-	 * @return array
+	 * @return oDatabaseResult
 	 * @throws oException
 	 */
 	static function query( $query ) {
@@ -78,6 +78,8 @@ class oDatabaseMysql extends oDatabase {
 				$data[] = $row;
 			}
 		}
+
+		$data = new oDatabaseResult($data);
 
 	return $data;
 	}

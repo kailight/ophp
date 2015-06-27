@@ -3,7 +3,7 @@
 namespace o;
 
 
-class oString {
+class oString implements Exportable {
 
     /**
      * @var string $originalString
@@ -22,6 +22,12 @@ class oString {
         $this->currentString  = $string;
 
     }
+
+
+	public function __get_state() {
+		return var_export($this->currentString,true);
+	}
+
 
 
     /**
@@ -102,7 +108,7 @@ class oString {
      * The replacement value that replaces found search values.
      * </p>
      * @param int $count [optional] If passed, this will hold the number of matched and replaced needles.
-     * @return mixed This function returns a string or an array with the replaced values.
+     * @return oString oString with the replaced values.
      */
     public function replace ($search = '',$replace='') {
         $this->currentString = str_replace($search,$replace,$this->currentString);
@@ -150,6 +156,35 @@ class oString {
 
 
 
+	/**
+	 * (PHP 4, PHP 5)<br/>
+	 * Split a string by string
+	 * @link http://php.net/manual/en/function.explode.php
+	 * @param string $delimiter <p>
+	 * The boundary string.
+	 * </p>
+	 * @param int $limit [optional] <p>
+	 * If limit is set and positive, the returned array will contain
+	 * a maximum of limit elements with the last
+	 * element containing the rest of string.
+	 * </p>
+	 * @return oArray
+	 * If delimiter contains a value that is not
+	 * contained in string and a negative
+	 * limit is used, then an empty oArray will be
+	 * returned. For any other limit, oArray containing
+	 * string will be returned.
+	 */
+	public function explode ( $delimiter, $limit=null ) {
+
+		if ( is_null($limit) ) {
+			return new oArray( explode( $delimiter, $this->currentString) );
+		} else {
+			return new oArray( explode( $delimiter, $this->currentString, $limit ) );
+		}
+
+	}
+
 
 
 
@@ -165,7 +200,19 @@ class oString {
 
 
 
+	/**
+	 * Validate string
+	 * @link http://todo
+	 * @return string
+	 */
+	public function validate ($pattern) {
 
+		if ($pattern == 'email') {
+			return filter_var($this->currentString, FILTER_VALIDATE_EMAIL);
+		}
+
+	return false;
+	}
 
 
     /**

@@ -11,6 +11,7 @@ class oDatabase implements StaticInit {
 	 */
 	static $link = null;
 	static $config;
+	public static $database;
 
 	function oDatabase() {
 		$this->init();
@@ -39,8 +40,7 @@ class oDatabase implements StaticInit {
 	 * Connect to MYSQL DB
 	 */
 	static function connect() {
-		rec('oDatabase:connect()');
-
+		rec('oDatabase:connect() - this method should be extended');
 
 
 		/*
@@ -57,38 +57,12 @@ class oDatabase implements StaticInit {
 
 	/**
 	 * @param string | oString $query
-	 * @return array
+	 * @return oDatabaseResult|null
 	 * @throws oException
 	 */
 	static function query( $query ) {
+		warning(__CLASS__.':query() - this method should be extended');
 
-		if (!self::$link) {
-			self::connect();
-		}
-
-		$result = self::$link->query($query);
-
-		if (!$result) {
-			throw new oException( self::$link->error, 1);
-		}
-
-		$db_config = oConfig::database();
-
-		$data = array();
-		if ($db_config['type'] == 'mysql') {
-			if ($result->num_rows) {
-				while ($row = $result->fetch_assoc()) {
-					$data[] = $row;
-				}
-			}
-		}
-		else if ($db_config['type'] == 'sqlite') {
-			while($row = $result->fetchArray(1)){
-				$data[] = $row;
-			}
-		}
-
-		return $data;
 	}
 
 

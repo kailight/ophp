@@ -2,7 +2,19 @@
 
 namespace o;
 
-
+/**
+ * Class o
+ * @package o
+ * Serves as Factory
+ * <code>
+ * $database = o::init('Database');
+ * echo classname($database);
+ * // o\oDatabase
+ * // or, if config is set to type = mysql
+ * // o\oDatabaseMysql
+ * </code>
+ * @example
+ */
 class o implements StaticInit {
 
 	/**
@@ -11,8 +23,8 @@ class o implements StaticInit {
 	static $link = null;
 	static $config;
 
-	function o($class) {
-		$this->init($class);
+	static function o($class) {
+		self::init($class);
 	}
 
 	/**
@@ -31,6 +43,8 @@ class o implements StaticInit {
 			$classname = $args[0];
 		}
 
+
+
 		if (strpos($classname,'o') !== 0) {
 			$classname = 'o'.$classname;
 		}
@@ -48,6 +62,8 @@ class o implements StaticInit {
 		}
 
 		$classname = get_class($class);
+
+
 		if ( str_replace('o\o','',$classname) == 'Database' ) {
 			if ($class::$config && $class::$config['type']) {
 				if (__NAMESPACE__) {

@@ -6,7 +6,11 @@
 
     require_once 'StaticInit.php';
     require_once 'o.php';
+    require_once 'oApp.php';
+    require_once 'oCore.php';
     require_once 'oConfig.php';
+    require_once 'oDatabase.php';
+    require_once 'oDatabaseResult.php';
     require_once 'oTemplates.php';
     require_once 'oTemplate.php';
     require_once 'oLocations.php';

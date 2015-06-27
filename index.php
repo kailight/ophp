@@ -115,7 +115,7 @@ HEREDOC;
 </head>
 <body>
 
-<?php include 'navigation-sandbox.php' ?>
+<?php include 'navigation.php' ?>
 
 <section id="intro">
     <div class="logo">

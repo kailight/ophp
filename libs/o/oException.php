@@ -445,9 +445,19 @@ class oException extends \Exception {
             $messages[] = (string) $message;
         }
 
-
         if ( self::$_format == self::FORMAT_HTML ) {
-            $log     = "<pre class='".self::DUMP_CSS_CLASS."'>";
+	        $class = self::DUMP_CSS_CLASS;
+	        $log    .= <<<HEREDOC
+
+<style type="text/css">
+.$class { color: #666 }
+.$class em { color: #000; font-style: normal }
+.$class strong { color: #960 }
+</style>
+
+HEREDOC;
+
+            $log    .= "<pre class='".self::DUMP_CSS_CLASS."'>";
             $log    .= implode("<br>",$messages);
             $log    .= "</pre>";
         }
@@ -577,13 +587,21 @@ class oException extends \Exception {
             if (is_string($var)) {
                 $log    .= htmlspecialchars($var);
             } else {
-                $log    .= htmlspecialchars(var_export($var,true));
+	            if ($var instanceof Exportable) {
+		            $log    .= htmlspecialchars($var->__get_state());
+	            } else {
+		            $log    .= htmlspecialchars(var_export($var,true));
+	            }
             }
             // $log .= "\n<a href='file:///{$caller['full_path']}'>Click to open</a>\n\n (You may need browser plugin like 'Local Filesystem Links' for FireFox</pre>";
             $log .= "</pre>";
         }
         elseif ( self::$_format == self::FORMAT_TEXT ) {
-            $log = var_export($var,true);
+	        if ($var instanceof Exportable) {
+                $log = $var->__get_state();
+	        } else {
+		        $log = var_export($var,true);
+	        }
         }
         elseif ( self::$_format == self::FORMAT_PHP ) {
             $log = serialize($var);
