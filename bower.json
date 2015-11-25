@@ -1,8 +1,8 @@
 {
-  "name": "kailight",
+  "name": "bookface",
   "version": "0.0.0",
   "authors": [
-    "kailight <lastgrunger@gmail.com>"
+    "Kai Light <lastgrunger@gmail.com>"
   ],
   "moduleType": [
     "node"
@@ -15,8 +15,5 @@
     "bower_components",
     "test",
     "tests"
-  ],
-  "dependencies": {
-    "highlightjs": "~8.5.0"
-  }
+  ]
 }
